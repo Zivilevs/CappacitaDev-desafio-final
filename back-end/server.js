@@ -17,10 +17,10 @@ const configGenre = {
         language: "en-US"
     }
   }
-  
+/*  
 let selectedGenre = 10749  //romance
 
-const configList = {
+const configList2 = {
   url: genreListLink,
   params: { 
       api_key: process.env.API_KEY,
@@ -28,6 +28,7 @@ const configList = {
       page: 8 
   }
 }
+*/
 let movieId = 552687
 
 const configMovie = {
@@ -43,7 +44,7 @@ const configMovie = {
 app.get('/genres', async(req, res) => {
     try {
       const { data } = await axios(configGenre)
-      console.log(data.genres)
+      //console.log(data.genres)
       return res.status(200).send(data.genres)
 
     } catch (error) {
@@ -54,11 +55,25 @@ app.get('/genres', async(req, res) => {
 
 
 
-app.get('/movies', async(req,res) => {
+app.get('/movies/:id/:pageNum', async(req,res) => {
+  const genre_id = req.params.id
+  const page = req.params.pageNum
+
+  console.log("mano endpoint movies: ", genre_id)
+
+  const configList = {
+      url: genreListLink,
+      params: { 
+          api_key: process.env.API_KEY,
+          with_genres: genre_id,
+          page: page
+      }
+  }
+
   try{
     const { data } = await axios(configList)
-    console.log(data.results)
-    return res.status(200).send(data.results)}
+    //console.log(data.results)
+    return res.status(200).send(JSON.stringify(data.results))}
   catch(error) {
     console.log(error)
     return res.status(500).send("Some sad error")
@@ -68,16 +83,12 @@ app.get('/movies', async(req,res) => {
 app.get('/details', async(req,res) => {
   try{
     const { data } = await axios(configMovie)
-    console.log(data)
     return res.status(200).send(data)}
   catch(error) {
     console.log(error)
     return res.status(500).send("Some very sad error")
   }
 })
-
-
-
 
 app.listen('3003')
 
