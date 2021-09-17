@@ -18,15 +18,7 @@ const configGenre = {
     }
   }
 
-let movieId = 552687
 
-const configMovie = {
-  url: movieLink + movieId,
-  params: { 
-      api_key: process.env.API_KEY,
-      language: "en-US"
-  }
-}
 
 app.get('/genres', async(req, res) => {
     try {
@@ -44,7 +36,9 @@ app.get('/genres', async(req, res) => {
 let previous_page_genre_id = ""
 let page = 0
 
+
 app.get('/movies/:id/:moveforward', async(req,res) => {
+
   const genre_id = req.params.id
   const moveForward = req.params.moveforward
   if (moveForward == "true") {
@@ -61,9 +55,6 @@ app.get('/movies/:id/:moveforward', async(req,res) => {
     }
   }
   previous_page_genre_id = genre_id
-
-
-console.log("mano endpoint movies: ", genre_id, page)
 
   const configList = {
       url: genreListLink,
@@ -82,7 +73,19 @@ console.log("mano endpoint movies: ", genre_id, page)
   }
 })
 
-app.get('/details', async(req,res) => {
+
+app.get('/details/:movie_id', async(req,res) => {
+
+  const movieId = req.params.movie_id
+
+  const configMovie = {
+    url: movieLink + movieId,
+    params: { 
+        api_key: process.env.API_KEY,
+        language: "en-US"
+    }
+  }
+
   try{
     const { data } = await axios(configMovie)
     return res.status(200).send(data)}

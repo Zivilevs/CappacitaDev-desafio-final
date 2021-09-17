@@ -79,33 +79,54 @@ const chooseGenre = function() {
     }
 }
 
-
 const nextPage = function() {
-    let xhttp = new XMLHttpRequest()
-    let page = document.getElementById('next-button')
     listarMovies(genre_id)
     }
 
 const previousPage = function() {
-    let xhttp = new XMLHttpRequest()
-    let page = document.getElementById('previous-button')
     moveForward = false
     listarMovies(genre_id, moveForward)
     }
 
-const showdetails = function(movieId) {
-    let xhttp = new XMLHttpRequest()
-    let main = document.getElementsByTagName('main')
+const showdetails = async function(movieId) {
+    let Main = document.getElementsByTagName('main')
     let divM = document.createElement('div')
-    main.appendChild(divM)
+    let url = `http://localhost:3003/details/${movieId}`
+    let movie = await fetch(url, {method: 'GET', mode: 'cors', cache: "default"})
+                                .then(movie => movie.json())
+    
+    let original_title = movie.original_title
+    let movie_title = document.createElement('p')
+    movie_title.innerHTML = `${original_title}`
+
+    let img = document.createElement('img')
+    let base_url = "http://image.tmdb.org/t/p/w500/"
+    img.src = `${base_url}${movie.poster_path}`
+    img.className = 'img-fluid img-thunmbnail rounded'
+    let starIcon = document.createElement('i')
+    starIcon.className = "bi star star-fill"
+    starIcon.onclick = function() {
+            // ADITIONAR NO BANCO COMO whatch list
+            // mudar para star-fill red
+    pass
+    }
+
+    let release_date = movie.release_date
+    let release = document.createElement('p')
+    release.innerHTML = `Release date: ${release_date}`
+
+    
+    let nodeId = movie.id
+    divM.className = 'col card bg-light'
+    divM.id = nodeId
+    divM.appendChild(img)
+    divM.appendChild(movie_title)
+    divM.appendChild(release)
+    divM.appendChild(starIcon)
+    console.log(Main)
+    Main[0].appendChild(divM)
 
 }
-
-
-
-
-
-
 
 
 chooseGenre()
