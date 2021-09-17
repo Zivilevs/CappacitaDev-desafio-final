@@ -1,8 +1,13 @@
-function listarMovies(id, pageNum) {
+
+let moveForward = true
+let genre_id = '28'  // default
+
+function listarMovies(genre_id, moveForward=true) {
     let xhttp = new XMLHttpRequest()
     let movieslist = document.getElementById('movieList')
     movieslist.innerHTML = ""
-    let url = `http://localhost:3003/movies/${id}/${pageNum}`
+    console.log("movieslist", moveForward)
+    let url = `http://localhost:3003/movies/${genre_id}/${moveForward}`
 
     xhttp.open('get', url, false)
     xhttp.send()
@@ -41,8 +46,12 @@ function listarMovies(id, pageNum) {
         div.appendChild(release)
         div.appendChild(starIcon)
         movieslist.appendChild(div)
+        div.onclick = function() {
+            let movieId = div.id
+            console.log(movieId)
+            showdetails(movieId)
+        }
     }
-
 }
 
 const chooseGenre = function() {
@@ -63,21 +72,41 @@ const chooseGenre = function() {
         option.setAttribute('value', genreId)
         genre_list.appendChild(option)
     }
-    console.log()
     genre_list.onclick = function(){ 
         genre_id = genre_list.value
         console.log("Zanras: ", genre_id)
         listarMovies(genre_id)
     }
 }
-chooseGenre()
+
 
 const nextPage = function() {
     let xhttp = new XMLHttpRequest()
-    let page = document.getElementById('pagination')
-    pageNum = toString(page.value + 1)
-    page.setAttribute('value', pageNum)
-    console.log(page.value)
-    listarMovies(genre_id, page.value)
+    let page = document.getElementById('next-button')
+    listarMovies(genre_id)
+    }
+
+const previousPage = function() {
+    let xhttp = new XMLHttpRequest()
+    let page = document.getElementById('previous-button')
+    moveForward = false
+    listarMovies(genre_id, moveForward)
+    }
+
+const showdetails = function(movieId) {
+    let xhttp = new XMLHttpRequest()
+    let main = document.getElementsByTagName('main')
+    let divM = document.createElement('div')
+    main.appendChild(divM)
+
 }
 
+
+
+
+
+
+
+
+chooseGenre()
+listarMovies(genre_id)
