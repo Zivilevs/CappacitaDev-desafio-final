@@ -31,7 +31,15 @@ app.get('/genres', async(req, res) => {
         return res.status(500).send("Some error, sorry")
     }})
 
+app.post('/genre', async(req, res) => {
+  const genre = await database.salvarGenre({
+    nome: req.body.genre,
+    id_genre: req.body.id_genre,
+    count: 1,
+  })
+  res.send(genre)
 
+})
 
 let previous_page_genre_id = ""
 let page = 0
@@ -94,6 +102,7 @@ app.get('/details/:movie_id', async(req,res) => {
     return res.status(500).send("Some very sad error")
   }
 })
+
 
 app.listen('3003')
 
