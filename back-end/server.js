@@ -2,9 +2,14 @@ require('dotenv').config()
 const  express = require('express')
 const axios = require('axios')
 const app = express()
+const dataBase = require('./database/databaseKnex')
 const cors = require('cors')
 
+
+
 app.use(cors())
+//app.use(bodyParser.urlencoded({ extended: true }))
+
 
 const genreLink = "https://api.themoviedb.org/3/genre/movie/list"
 const genreListLink = "https://api.themoviedb.org/3/discover/movie"
@@ -32,7 +37,7 @@ app.get('/genres', async(req, res) => {
     }})
 
 app.post('/genre', async(req, res) => {
-  const genre = await database.salvarGenre({
+  const genre = await dataBase.salvarGenre({
     nome: req.body.genre,
     id_genre: req.body.id_genre,
     count: 1,

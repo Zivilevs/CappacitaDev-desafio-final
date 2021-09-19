@@ -1,4 +1,4 @@
-const { databaseConnection } = require(`./connection`)
+const { databaseConnection } = require('./connection')
 
 async function createDatabase() {
     await databaseConnection.raw('CREATE DATABASE genresZVS').then( function() {
@@ -29,7 +29,6 @@ async function salvarGenre(genre) {
         genre_id: genre_id,
     }
     try {
-        //const qyeryInsertGenreAndCount = `INSERT INTO genre (nome, genre_id, count) VALUES ('${genre.nome}','${genre.genre_id}')`
         result = await databaseConnection('genre').insert(insertGenre)
         console.log(result)
     } catch (err) {
@@ -45,4 +44,4 @@ async function salvarGenre(genre) {
     }
 
 }
-module.exports = {salvarGenre}
+module.exports = { salvarGenre }

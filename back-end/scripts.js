@@ -1,3 +1,5 @@
+  
+
 const toggleExpansion = (element, to, duration = 350) => {
     return new Promise((res) => {
       element.animate([
@@ -75,8 +77,35 @@ function listarMovies(genre_id, moveForward=true) {
         }
     }
 }
+const postGenre = async function(genre, genre_id) {
+    let url = `http://localhost:3003/genre`
+    let response = await fetch(url, {method: 'POST', body: JSON.stringify({
+        nome: genre,
+        genre_id: genre_id,
+     }),
+        mode: 'cors',
+        headers:{
+            'Content-Type': 'application/json'
+        }})
+let url = `http://localhost:3003/genre`
+let response = await fetch(url, {
+    method:'post',
+    body:JSON.stringify(
+      {
+        nome: genre_list.value,
+        genre_id: genre_list.id,
+      }
+    ),
+    mode: 'cors',
+    headers:{
+      'Content-Type': 'application/json'
+    }
+  }
+).then(genre => genre.json())}
+    
 
-const chooseGenre = function() {
+
+const chooseGenre =  function() {
     let xhttp = new XMLHttpRequest()
     let genre_list = document.getElementById('genres')
     let url = "http://localhost:3003/genres"
@@ -91,16 +120,15 @@ const chooseGenre = function() {
         let genre_name = genre.name
         let option = document.createElement('option')
         option.innerHTML = genre_name.charAt(0).toUpperCase() + genre_name.slice(1)
-        option.setAttribute('value', genreId)
+        option.setAttribute('value', genre_name)
+        option.setAttribute('id', genreId)
         genre_list.appendChild(option)
     }
     genre_list.onclick = function(){ 
-        genre_id = genre_list.value
         console.log("Zanras: ", genre_id)
-        listarMovies(genre_id)
-        console.log("depois listarMovie", genre_id)
-    }
-}
+        listarMovies(genre_list.id)
+        postGenre(genre_list.value, genre_list.id)
+
 
 const nextPage = function() {
     listarMovies(genre_id)
@@ -168,13 +196,7 @@ const showdetails = async function(movieId, card, movieClone) {
 	    movieClone.remove()
 		})
 
-      
-
-    //cia mano..
-    movieClone.click(function() {
-        pass
-    })
-   
+ 
 }
 
 
