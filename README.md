@@ -18,6 +18,8 @@ Com base em todo o conhecimento adquirido em nosso curso #CappacitaDev, você pr
 
 ​	Arquivos `server.js`e `scripts.js`.  (Ultimo precisando da refactor e limpeza)
 
+​	Principal backend framework `expess.js`
+
 ​	Uso de `axios`, tratamento de `status code `
 
 #### 3. Interface gráfica
@@ -33,12 +35,14 @@ Com base em todo o conhecimento adquirido em nosso curso #CappacitaDev, você pr
 #### 4.Próprias APIs
 
 	1. `POST` --> Quando visitante escolha um gênero de filme, escolha dele é mandada pela API para banco de dados e registrada. (API funcionando)
- 	2. `GET` -->  Retira os dados do MySQL fazendo contagem por gênero e mostra os 5 mais populares gêneros no site. (API funciona, mas precisar terminar implementação no front end)
+	2. `GET` -->  Retira os dados do MySQL fazendo contagem por gênero e mostra os 5 mais populares gêneros no site. (API funciona, mas precisar terminar implementação no front end)
 
 #### 5. Bonus
 
 	1.  uso de `dotenv`
- 	2.   frontend com o  uso do cartão animado pela CSS
+	2.   frontend com o  uso do cartão animado pela CSS
+
+### Iniciar o projeto
 
 ##### Dependências do projeto
 
@@ -64,6 +68,10 @@ Com base em todo o conhecimento adquirido em nosso curso #CappacitaDev, você pr
 
 Express.js usa `port: 3003`
 
+Depois resolvidas as dependências:
+
+`npm start back-end/server.js `  ( ou usar `nodemon` com `npm run dev`)
+
 #### Para MySQL funcionar precisa criar uma database e uma tabela
 
 ​	`port` : '3306'
@@ -81,4 +89,6 @@ Express.js usa `port: 3003`
   `created_at` DATETIME NULL DEFAULT current_timestamp,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);`)
+
+
 
