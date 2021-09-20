@@ -119,4 +119,6 @@ nav span {
 .card-content p {
     color: #999;
     animation: slideDown 0.5s ease-out 0.4s forwards;
+    font-size: 20px;
+    text-indent: 10px;
 }
