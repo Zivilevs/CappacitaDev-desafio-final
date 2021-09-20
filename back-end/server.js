@@ -16,7 +16,10 @@ const genreLink = "https://api.themoviedb.org/3/genre/movie/list"
 const genreListLink = "https://api.themoviedb.org/3/discover/movie"
 const movieLink = "https://api.themoviedb.org/3/movie/"
 
-const configGenre = {
+
+// GET available genres from TMDB API
+app.get('/genres', async(req, res) => {
+  const configGenre = {
     url: genreLink,
     params: { 
         api_key: process.env.API_KEY,
@@ -24,12 +27,8 @@ const configGenre = {
     }
   }
 
-
-
-app.get('/genres', async(req, res) => {
     try {
       const { data } = await axios(configGenre)
-      //console.log(data.genres)
       return res.status(200).send(data.genres)
 
     } catch (error) {
@@ -37,7 +36,7 @@ app.get('/genres', async(req, res) => {
         return res.status(500).send("Some error, sorry")
     }})
 
-
+// POST selected genre to MySQL 
 app.post('/genre', async (req, res) => {
   try {
     const genre = await dataBase.salvarGenre({
@@ -53,6 +52,7 @@ app.post('/genre', async (req, res) => {
 })
 
 
+// GET previous or next pages for list of movies by selected genre from TMBD API
 let previous_page_genre_id = ""
 let page = 0
 
@@ -93,6 +93,7 @@ app.get('/movies/:id/:moveforward', async(req,res) => {
 })
 
 
+// GET  movie details from  TMBD API
 app.get('/details/:movie_id', async(req,res) => {
 
   const movieId = req.params.movie_id
@@ -114,6 +115,8 @@ app.get('/details/:movie_id', async(req,res) => {
   }
 })
 
+
+// GET selected genres by count from MySQL
 app.get('/popularity', async(req,res) => {
   try {
     const topGenres = await dataBase.selectTopGenres()
@@ -124,7 +127,6 @@ app.get('/popularity', async(req,res) => {
     return res.status(500).send("ahhh some error...")
   }
 })
-
 
 
 app.listen('3003')

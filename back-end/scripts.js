@@ -142,7 +142,6 @@ const chooseGenre =  function() {
         option.setAttribute('value', genreId)
         genre_list.appendChild(option)
     
-    //genre_list.onclick = function(){ 
         option.onclick = function() {
             listarMovies(option.value)
             console.log(option.value)
