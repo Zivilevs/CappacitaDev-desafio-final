@@ -4,11 +4,12 @@ const axios = require('axios')
 const app = express()
 const dataBase = require('./database/databaseKnex')
 const cors = require('cors')
+const bodyParser = require('body-parser')
 
 
-
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
-//app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json()) 
 
 
 const genreLink = "https://api.themoviedb.org/3/genre/movie/list"
@@ -36,19 +37,24 @@ app.get('/genres', async(req, res) => {
         return res.status(500).send("Some error, sorry")
     }})
 
-app.post('/genre', async(req, res) => {
-  const genre = await dataBase.salvarGenre({
-    nome: req.body.genre,
-    id_genre: req.body.id_genre,
-    count: 1,
-  })
-  res.send(genre)
 
+app.post('/genre', async (req, res) => {
+  try {
+    const genre = await dataBase.salvarGenre({
+      nome: req.body.nome,
+      genre_id: req.body.genre_id,
+    })
+    console.log("apos POST", genre)
+    res.status(201).send(genre)
+
+  } catch (error) {
+    return res.status(500).send("Some error, sorry")
+  }
 })
+
 
 let previous_page_genre_id = ""
 let page = 0
-
 
 app.get('/movies/:id/:moveforward', async(req,res) => {
 
@@ -107,6 +113,18 @@ app.get('/details/:movie_id', async(req,res) => {
     return res.status(500).send("Some very sad error")
   }
 })
+
+app.get('/popularity', async(req,res) => {
+  try {
+    const topGenres = await dataBase.selectTopGenres()
+    console.log(topGenres)
+    res.status(200).send(topGenres)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send("ahhh some error...")
+  }
+})
+
 
 
 app.listen('3003')

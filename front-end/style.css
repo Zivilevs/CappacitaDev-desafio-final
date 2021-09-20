@@ -31,10 +31,11 @@ header h1 {
     text-align: center;
     text-shadow: 2px 2px #4c0505 ;
 }
+/*
 .genre-box{
     font-size: 20px;
     margin-bottom: 2rem;
-}
+*/
 
 .pagination{
     text-align: left;

@@ -27,7 +27,6 @@ const toggleExpansion = (element, to, duration = 350) => {
       })
   }
 
-let moveForward = true
 let genre_id = '28'  // default
 
 function listarMovies(genre_id, moveForward=true) {
@@ -77,33 +76,28 @@ function listarMovies(genre_id, moveForward=true) {
         }
     }
 }
-const postGenre = async function(genre, genre_id) {
-    let url = `http://localhost:3003/genre`
-    let response = await fetch(url, {method: 'POST', body: JSON.stringify({
+
+function postGenre(genre, genre_id) {
+
+    let url_genre = 'http://localhost:3003/genre'
+    let data = {
         nome: genre,
         genre_id: genre_id,
-     }),
-        mode: 'cors',
-        headers:{
-            'Content-Type': 'application/json'
-        }})
-let url = `http://localhost:3003/genre`
-let response = await fetch(url, {
-    method:'post',
-    body:JSON.stringify(
-      {
-        nome: genre_list.value,
-        genre_id: genre_list.id,
-      }
-    ),
-    mode: 'cors',
-    headers:{
-      'Content-Type': 'application/json'
-    }
-  }
-).then(genre => genre.json())}
+    }  
     
-
+    let response = fetch(url_genre, {
+        method: 'post',
+        cache: 'default',
+        mode: 'cors',
+        headers: {
+            'Accept': 'application/json, text/plain, * /*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+        .then(data => console.log("data", data))
+    }
 
 const chooseGenre =  function() {
     let xhttp = new XMLHttpRequest()
@@ -116,18 +110,23 @@ const chooseGenre =  function() {
 
     for(let i = 0; i < response.length; i++){
         let genre = response[i]
+        console.log(genre)
         let genreId = genre.id
         let genre_name = genre.name
         let option = document.createElement('option')
         option.innerHTML = genre_name.charAt(0).toUpperCase() + genre_name.slice(1)
-        option.setAttribute('value', genre_name)
-        option.setAttribute('id', genreId)
+        option.setAttribute('label', genre_name)
+        option.setAttribute('value', genreId)
         genre_list.appendChild(option)
+    
+    //genre_list.onclick = function(){ 
+        option.onclick = function() {
+            listarMovies(option.value)
+            console.log(option.value)
+            postGenre(option.label, option.value)
+        }
     }
-    genre_list.onclick = function(){ 
-        console.log("Zanras: ", genre_id)
-        listarMovies(genre_list.id)
-        postGenre(genre_list.value, genre_list.id)
+}
 
 
 const nextPage = function() {
@@ -135,7 +134,7 @@ const nextPage = function() {
     }
 
 const previousPage = function() {
-    moveForward = false
+    let moveForward = false
     listarMovies(genre_id, moveForward)
     }
 
@@ -195,12 +194,8 @@ const showdetails = async function(movieId, card, movieClone) {
 	    card.style.removeProperty('opacity');
 	    movieClone.remove()
 		})
-
- 
 }
 
 
 chooseGenre()
-
 listarMovies(genre_id)
-
