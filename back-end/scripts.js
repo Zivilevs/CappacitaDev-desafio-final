@@ -98,6 +98,29 @@ function postGenre(genre, genre_id) {
     .then(res => res.json())
         .then(data => console.log("data", data))
     }
+/*
+const showPopularGenres = async function() {
+    let url = `http://localhost:3003/popularity`
+    let topGenres = await fetch(url, {method: 'GET', mode: 'cors', cache: "default"})
+                                   .then(res => res.json())
+                                   .then(data => data)
+                                   console.log("top", topGenres)
+                                   //console.log(Object.values(topGenres).name)
+    let topes = document.getElementsByClassName('topes')
+    topes = topes[0]
+    let p1 = document.createElement('p')
+    p1.innerHTML = "Genres by popularity here"
+    topes.appendChild(p1)
+    let ol = document.createElement('ol')
+    for(let i = 1; i < 5; i++) {
+        let li = document.createElement('li')
+        li.innerHTML = `${topGenres.nome}(${topGenres.count})`
+        ol.appendChild(li)
+    }
+    topes.appendChild(ol)
+    }*/
+
+
 
 const chooseGenre =  function() {
     let xhttp = new XMLHttpRequest()
@@ -196,6 +219,7 @@ const showdetails = async function(movieId, card, movieClone) {
 		})
 }
 
-
 chooseGenre()
 listarMovies(genre_id)
+showPopularGenres()
+
